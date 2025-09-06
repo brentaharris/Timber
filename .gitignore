@@ -1,0 +1,57 @@
+# Ignore user-specific files
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build results
+[Bb]in/
+[Oo]bj/
+Debug/
+Release/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Ignore intermediate files
+*.obj
+*.pdb
+*.idb
+*.ipdb
+*.iobj
+*.ilk
+*.log
+*.tlog
+
+# Ignore generated files
+*.exe
+*.dll
+*.lib
+*.app
+*.pch
+
+# Ignore VS cache files
+.vs/
+*.VC.db
+*.VC.VC.opendb
+
+# Ignore test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Ignore NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+*.packages.config
+*.nuget.props
+*.nuget.targets
+packages/
+
+# Ignore CMake cache if using CMake
+CMakeCache.txt
+CMakeFiles/
+cmake-build-*/
