@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
@@ -52,7 +54,36 @@ int main()
 	float cloud3Speed = 0.0f;
 
 	Clock clock;
+	bool isPaused = true;
+
+	Font font;
+	font.loadFromFile("fonts/KOMIKAP_.ttf");
+
+	int score = 0;
+
+	Text messageText;
+	Text scoreText;
+
+	messageText.setFont(font);
+	scoreText.setFont(font);
+
+	messageText.setString("Press enter to start!");
+	scoreText.setString("");
+
+	messageText.setCharacterSize(75);
+	scoreText.setCharacterSize(100);
+
+	messageText.setFillColor(Color::White);
+	scoreText.setFillColor(Color::White);
+
+	FloatRect textRect = messageText.getLocalBounds();
+	messageText.setOrigin(
+		textRect.left + textRect.width / 2.0f,
+		textRect.top + textRect.height / 2.0f
+	);
 	
+	messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+	scoreText.setPosition(20, 20);
 
 	while (window.isOpen())
 	{
@@ -61,100 +92,112 @@ int main()
 			window.close();
 		}
 
-		window.clear();
-
-		Time dt = clock.restart();
-
-		if (!beeActive)
+		if (Keyboard::isKeyPressed(Keyboard::Return))
 		{
-			srand((int)time(0));
-			beeSpeed = (rand() % 200) + 200;
-
-			srand((int)time(0) * 10);
-			float height = (rand() % 500) + 500;
-			spriteBee.setPosition(2000, height);
-			beeActive = true;
+			isPaused = false;
 		}
-		else
-		{
-			spriteBee.setPosition(
-				spriteBee.getPosition().x - (beeSpeed * dt.asSeconds()),
-				spriteBee.getPosition().y
-			);
 
-			if (spriteBee.getPosition().x < -100)
+		if (!isPaused)
+		{
+			window.clear();
+
+			Time dt = clock.restart();
+
+			if (!beeActive)
 			{
-				beeActive = false;
+				srand((int)time(0));
+				beeSpeed = (rand() % 200) + 200;
+
+				srand((int)time(0) * 10);
+				float height = (rand() % 500) + 500;
+				spriteBee.setPosition(2000, height);
+				beeActive = true;
 			}
-		}
-
-		if (!cloud1Active)
-		{
-			srand((int)time(0) * 10);
-			cloud1Speed = (rand() % 200);
-
-			srand((int)time(0) * 10);
-			float height = (rand() % 150);
-			spriteCloud1.setPosition(-200, height);
-			cloud1Active = true;
-		}
-		else
-		{
-			spriteCloud1.setPosition(
-				spriteCloud1.getPosition().x - (cloud1Speed * dt.asSeconds()),
-				spriteCloud1.getPosition().y
-			);
-
-			if (spriteCloud1.getPosition().x > 1920)
+			else
 			{
-				cloud1Active = false;
+				spriteBee.setPosition(
+					spriteBee.getPosition().x - (beeSpeed * dt.asSeconds()),
+					spriteBee.getPosition().y
+				);
+
+				if (spriteBee.getPosition().x < -100)
+				{
+					beeActive = false;
+				}
 			}
-		}
 
-		if (!cloud2Active)
-		{
-			srand((int)time(0) * 20);
-			cloud2Speed = (rand() % 200);
-
-			srand((int)time(0) * 20);
-			float height = (rand() % 300) - 150;
-			spriteCloud2.setPosition(-200, height);
-			cloud2Active = true;
-		}
-		else
-		{
-			spriteCloud2.setPosition(
-				spriteCloud2.getPosition().x + (cloud2Speed * dt.asSeconds()),
-				spriteCloud2.getPosition().y
-			);
-
-			if (spriteCloud2.getPosition().x > 1920)
+			if (!cloud1Active)
 			{
-				cloud2Active = false;
+				srand((int)time(0) * 10);
+				cloud1Speed = (rand() % 200);
+
+				srand((int)time(0) * 10);
+				float height = (rand() % 150);
+				spriteCloud1.setPosition(-200, height);
+				cloud1Active = true;
 			}
-		}
-
-		if (!cloud3Active)
-		{
-			srand((int)time(0) * 30);
-			cloud3Speed = (rand() % 200);
-
-			srand((int)time(0) * 30);
-			float height = (rand() % 450) - 150;
-			spriteCloud3.setPosition(-200, height);
-			cloud3Active = true;
-		}
-		else
-		{
-			spriteCloud3.setPosition(
-				spriteCloud3.getPosition().x + (cloud3Speed * dt.asSeconds()),
-				spriteCloud3.getPosition().y
-			);
-
-			if (spriteCloud3.getPosition().x > 1920)
+			else
 			{
-				cloud3Active = false;
+				spriteCloud1.setPosition(
+					spriteCloud1.getPosition().x - (cloud1Speed * dt.asSeconds()),
+					spriteCloud1.getPosition().y
+				);
+
+				if (spriteCloud1.getPosition().x > 1920)
+				{
+					cloud1Active = false;
+				}
 			}
+
+			if (!cloud2Active)
+			{
+				srand((int)time(0) * 20);
+				cloud2Speed = (rand() % 200);
+
+				srand((int)time(0) * 20);
+				float height = (rand() % 300) - 150;
+				spriteCloud2.setPosition(-200, height);
+				cloud2Active = true;
+			}
+			else
+			{
+				spriteCloud2.setPosition(
+					spriteCloud2.getPosition().x + (cloud2Speed * dt.asSeconds()),
+					spriteCloud2.getPosition().y
+				);
+
+				if (spriteCloud2.getPosition().x > 1920)
+				{
+					cloud2Active = false;
+				}
+			}
+
+			if (!cloud3Active)
+			{
+				srand((int)time(0) * 30);
+				cloud3Speed = (rand() % 200);
+
+				srand((int)time(0) * 30);
+				float height = (rand() % 450) - 150;
+				spriteCloud3.setPosition(-200, height);
+				cloud3Active = true;
+			}
+			else
+			{
+				spriteCloud3.setPosition(
+					spriteCloud3.getPosition().x + (cloud3Speed * dt.asSeconds()),
+					spriteCloud3.getPosition().y
+				);
+
+				if (spriteCloud3.getPosition().x > 1920)
+				{
+					cloud3Active = false;
+				}
+			}
+
+			std::stringstream ss;
+			ss << "Score = " << score;
+			scoreText.setString(ss.str());
 		}
 
 		window.draw(spriteBackground);
@@ -167,7 +210,17 @@ int main()
 
 		window.draw(spriteBee);
 
+		window.draw(scoreText);
+
+		if (isPaused)
+		{
+			window.draw(messageText);
+		}
+
 		window.display();
+		
+
+		
 	}
 
 	return 0;
